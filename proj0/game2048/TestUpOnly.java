@@ -58,6 +58,50 @@ public class TestUpOnly extends TestUtils {
     }
 
     @Test
+    public void testUpAnotherBasicMerge() {
+        int[][] before = new int[][] {
+                {0, 0, 16, 0},
+                {0, 0, 0, 0},
+                {0, 0, 16, 0},
+                {2, 0, 0, 0},
+        };
+        int[][] after = new int[][] {
+                {2, 0, 32, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+        };
+
+        updateModel(before, 0, 0, false);
+        String prevBoard = model.toString();
+        boolean changed = model.tilt(Side.NORTH);
+        checkChanged(Side.NORTH, true, changed);
+        checkModel(after, 32, 0, prevBoard, Side.NORTH);
+    }
+
+    @Test
+    public void testUpAnotherComplexMerge() {
+        int[][] before = new int[][] {
+                {0, 0, 0, 0},
+                {2, 4, 8, 0},
+                {2, 0, 0, 0},
+                {0, 4, 4, 8},
+        };
+        int[][] after = new int[][] {
+                {4, 8, 8, 8},
+                {0, 0, 4, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+        };
+
+        updateModel(before, 0, 0, false);
+        String prevBoard = model.toString();
+        boolean changed = model.tilt(Side.NORTH);
+        checkChanged(Side.NORTH, true, changed);
+        checkModel(after, 12, 0, prevBoard, Side.NORTH);
+    }
+
+    @Test
     /** A triple merge. Only the leading 2 tiles should merge. */
     public void testUpTripleMerge() {
         int[][] before = new int[][] {
